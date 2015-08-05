@@ -154,7 +154,7 @@ export var DynamicMapLayer = RasterLayer.extend({
 
   _requestExport: function (params, bounds) {
     if (this.options.f === 'json') {
-      this.service.get('export', params, function (error, response) {
+      this._service.request('export', params, function(error, response){
         if (error) { return; } // we really can't do anything here but authenticate or requesterror will fire
         this._renderImage(response.href, bounds);
       }, this);
@@ -165,8 +165,8 @@ export var DynamicMapLayer = RasterLayer.extend({
   }
 });
 
-export function dynamicMapLayer (url, options) {
-  return new DynamicMapLayer(url, options);
-}
-
-export default dynamicMapLayer;
+ EsriLeaflet.DynamicMapLayer = EsriLeaflet.Layers.DynamicMapLayer;
+ 
+ EsriLeaflet.Layers.dynamicMapLayer = function(url, options){
+   return new EsriLeaflet.Layers.DynamicMapLayer(url, options);
+ };
