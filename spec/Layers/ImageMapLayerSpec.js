@@ -448,15 +448,23 @@ describe('L.esri.ImageMapLayer', function () {
     server.respond();
   });
 
-  it('should be able to request an image directly from the export service', function(){
-    layer = L.esri.imageMapLayer({
-      url: url,
-      f: 'image'
-    });
-    var spy = sinon.spy(layer, '_renderImage');
-    layer.addTo(map);
-    expect(spy.getCall(0).args[0]).to.match(new RegExp(/http:\/\/services.arcgis.com\/mock\/arcgis\/rest\/services\/MockImageService\/ImageServer\/exportImage\?bbox=-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+&size=500%2C500&format=jpgpng&transparent=true&bboxSR=3857&imageSR=3857&f=image/));
-  });
+@@ -421,7 +421,9 @@ describe('L.esri.Layers.ImageMapLayer', function () {
+   });
+ 
+   it('should be able to request an image directly from the export service', function(){
+-    layer = L.esri.imageMapLayer(url);
++    layer = L.esri.imageMapLayer(url, {
++      f: 'image'
++    });
+     var spy = sinon.spy(layer, '_renderImage');
+     layer.addTo(map);
+     expect(spy.getCall(0).args[0]).to.match(new RegExp(/http:\/\/services.arcgis.com\/mock\/arcgis\/rest\/services\/MockImageService\/ImageServer\/exportImage\?bbox=-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+&size=500%2C500&format=jpgpng&transparent=true&bboxSR=3857&imageSR=3857&f=image/));
+@@ -438,4 +440,4 @@ describe('L.esri.Layers.ImageMapLayer', function () {
+     server.respond();
+   });
+ 
+-});
++});
 
   it('should render an images at the back if specified', function(done){
     layer.bringToBack();
